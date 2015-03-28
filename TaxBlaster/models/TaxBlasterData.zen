@@ -1,7 +1,6 @@
 zenModel TaxBlasterDataModel
 
 	dataModel TaxBlasterDataModel
-	
 		structure TaxFiling
 			filingID : long
 			taxpayer : reference to Person
@@ -24,6 +23,7 @@ zenModel TaxBlasterDataModel
 			DOB : string
 			taxFilings : reference to TaxFiling*
 			addresses : containing Address*
+			ssn : SocialSecurityNumber
 
 		structure Address
 			street1 : string
@@ -33,7 +33,43 @@ zenModel TaxBlasterDataModel
 			postalCode : string
 			country : string
 
-		simpleType CurrencyCodeEnum defined as string
-		simpleType TaxFilingStatusEnum defined as string
-		simpleType SpecialValueEnum defined as string
+		simpleType SocialSecurityNumber defined as string
+			matching regex "999-99-9999"
+
+		enum int TaxFilingStatusEnum
+			DRAFT
+			PENDING_CPA_REVIEW
+			PENDING_CLIENT_REVIEW
+			FILED
+			AMENDED
+			CLOSED
+
+		enum int SpecialValueEnum
+			NORMAL_VALUE : 0
+			NOT_AVAILABLE : -65534
+			NOT_APPLICABLE : -65533
+			RESTRICTED : -65532
+
+		enum string CurrencyCodeEnum
+			EUR : "Euro"
+			CAD : "Canadian Dollar"
+			USD : "US Dollar"
+			CHF : "Swiss Franc"
+			JPY : "Japanese Yen"
+			INR : "Indian Rupee"
+			BRL : "Brazilian Real"
+		simpleType DayOfYear1 as integer
+			valueRange from "1" to "365"
+
+		simpleType DayOfYear defined as integer
+			with valueRange from minimum "1" up to maximum "365" inclusive
+
+		simpleType WholesaleQuantity as integer
+			with valueRange from minimum "1000"
+
+		simpleType FractionalValue as decimal
+			with valueRange from "0" exclusive up to "1" exclusive
+
+		simpleType ChildTravelerAge defined as integer
+			valueRange up to "12"
 		
